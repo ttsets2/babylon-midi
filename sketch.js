@@ -14,14 +14,8 @@ function triggerNote(note, midi = true) {
     //displays note name in browser (you can remove this line)
     document.getElementById('txt').innerText = note.name + note.octave;
 
-    //play note using appropriate function given input type
-    if (midi) { //midi keyboard input
-        try {
-            playNote(note.name + note.octave);
-        } catch { }
-    } else { //regular keyboard input
-        synth.triggerAttack(note.name + note.octave);
-    }
+    synth.triggerAttack(note.name + note.octave);
+
 
 
     //Show what we are receiving
