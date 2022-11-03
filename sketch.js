@@ -16,8 +16,14 @@ function triggerNote(note, midi = true) {
     //displays note name in browser (you can remove this line)
     document.getElementById('txt').innerText = note.name + note.octave;
 
-    synth.triggerAttack(note.name + note.octave);
-
+    //play note using appropriate function given input type
+    if (midi) { //midi keyboard input
+        try {
+            playNote(note.name + note.octave);
+        } catch { }
+    } else { //regular keyboard input
+        synth.triggerAttack(note.name + note.octave);
+    }
 
 
     //Show what we are receiving
@@ -77,19 +83,26 @@ function keyPressed() {
     let temp = keyCode;
     if (temp == 68) {
         temp = 0;
-    } else if (temp == 70) {
+    }
+    if (temp == 70) {
         temp = 1;
-    } else if (temp == 71) {
+    }
+    if (temp == 71) {
         temp = 2;
-    } else if (temp == 72) {
+    }
+    if (temp == 72) {
         temp = 3;
-    } else if (temp == 74) {
+    }
+    if (temp == 74) {
         temp = 4;
-    } else if (temp == 75) {
+    }
+    if (temp == 75) {
         temp = 5;
-    } else if (temp == 76) {
+    }
+    if (temp == 76) {
         temp = 6;
-    } else {
+    }
+    if (temp == 186)    {
         temp = 7;
     }
 
@@ -104,19 +117,26 @@ function keyReleased() {
     let temp = keyCode;
     if (temp == 68) {
         temp = 0;
-    } else if (temp == 70) {
+    }
+    if (temp == 70) {
         temp = 1;
-    } else if (temp == 71) {
+    }
+    if (temp == 71) {
         temp = 2;
-    } else if (temp == 72) {
+    }
+    if (temp == 72) {
         temp = 3;
-    } else if (temp == 74) {
+    }
+    if (temp == 74) {
         temp = 4;
-    } else if (temp == 75) {
+    }
+    if (temp == 75) {
         temp = 5;
-    } else if (temp == 76) {
+    }
+    if (temp == 76) {
         temp = 6;
-    } else {
+    }
+    if (temp == 186) {
         temp = 7;
     }
 
