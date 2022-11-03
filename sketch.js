@@ -164,7 +164,7 @@ function setup() {
 
     //initialize camera
     // Parameters: name, alpha, beta, radius, target position, scene
-    var camera = new BABYLON.ArcRotateCamera("Camera", 0, Math.PI/4, 24, BABYLON.Vector3.Zero(), scene);
+    var camera = new BABYLON.ArcRotateCamera("Camera", 0, Math.PI/4, 30, BABYLON.Vector3.Zero(), scene);
     // This targets the camera to scene origin
     camera.setTarget(BABYLON.Vector3.Zero());
     // This attaches the camera to the canvas
