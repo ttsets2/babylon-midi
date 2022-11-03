@@ -1,8 +1,10 @@
 //https://editor.p5js.org/howshekilledit/sketches/P00w6cEmL
 let piano_init = false;
 
-//default function plays note on keypress
+let pianoColor = ['#ff0000', '#00ff00', '#FFFF00', '#FFA500', '#999999', '#A020F0', '#00ff00', '#000000'];
+let circle = [];
 
+//default function plays note on keypress
 function triggerNote(note, midi = true) {
     if (piano_init == false) {
         Tone.start();
@@ -66,30 +68,101 @@ document.getElementById('renderCanvas').onclick = function () {
     document.getElementById('txt').innerText = '';
 };
 
+//create material from hex color
+function hexMat(hex, scene) {
+    var mat = new BABYLON.StandardMaterial('material', scene);
+    mat.diffuseColor = BABYLON.Color3.FromHexString(hex);
+    return mat;
+}
+
 //outputs code to console and plays note when key is pressed
 function keyPressed() {
     console.log(keyCode);
     triggerNote(keynotes[keyCode], false);
+
+    let temp = keyCode;
+    if (temp == 68) {
+        temp = 0;
+    } else if (temp == 70) {
+        temp = 1;
+    } else if (temp == 71) {
+        temp = 2;
+    } else if (temp == 72) {
+        temp = 3;
+    } else if (temp == 74) {
+        temp = 4;
+    } else if (temp == 75) {
+        temp = 5;
+    } else if (temp == 76) {
+        temp = 6;
+    } else {
+        temp = 7;
+    }
+
+    circle[temp].material = hexMat(pianoColor[temp], scene);
+    circle[temp].position.y += 5;
+
 }
 function keyReleased() {
     console.log(keyCode);
     stopNote(keynotes[keyCode]);
+
+    let temp = keyCode;
+    if (temp == 68) {
+        temp = 0;
+    } else if (temp == 70) {
+        temp = 1;
+    } else if (temp == 71) {
+        temp = 2;
+    } else if (temp == 72) {
+        temp = 3;
+    } else if (temp == 74) {
+        temp = 4;
+    } else if (temp == 75) {
+        temp = 5;
+    } else if (temp == 76) {
+        temp = 6;
+    } else {
+        temp = 7;
+    }
+
+    circle[temp].material = hexMat('#FFFFFF', scene);
+    circle[temp].position.y -= 5;
 }
 
+function createSphere(x, y, z, diam, scene) {
+    // babylon built-in 'sphere' shape.
+    var sphere = BABYLON.MeshBuilder.CreateSphere("sphere", { diameter: diam, segments: 32 }, scene);
+    // Move the x, y, z position
+    sphere.position = new BABYLON.Vector3(x, y, z);
+    return sphere;
+}
 
 function setup() {
+
+    for (let i = 0; i < 8; i++) {
+        circle[i] = createSphere(0, 0, -14 + (i * 4), 2, scene);
+     }
+
     noLoop();
     //color background white
     scene.clearColor = new BABYLON.Color3.FromHexString('#ffffff');
 
     //initialize camera
-    var camera = new BABYLON.ArcRotateCamera("Camera", 3 * Math.PI / 2, Math.PI / 4, 100, BABYLON.Vector3.Zero(), scene);
+    // Parameters: name, alpha, beta, radius, target position, scene
+    var camera = new BABYLON.ArcRotateCamera("Camera", 0, Math.PI/4, 20, BABYLON.Vector3.Zero(), scene);
+    // This targets the camera to scene origin
+    camera.setTarget(BABYLON.Vector3.Zero());
+    // This attaches the camera to the canvas
     camera.attachControl(canvas, true);
+
 
     //initialize light
     var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
     light.intensity = 1;
 
+    // background color
+    scene.clearColor = new BABYLON.Color3.FromHexString('#008080');
 
     synth = new Tone.PolySynth(Tone.MonoSynth, {
         volume: -8,
@@ -184,8 +257,6 @@ var createScene = function () {
     return scene;
 }
 window.initFunction = async function () {
-
-
     var asyncEngineCreation = async function () {
         try {
             return createDefaultEngine();
